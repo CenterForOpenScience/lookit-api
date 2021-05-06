@@ -43,6 +43,7 @@
                     <input type="hidden" name="sort" value={{ sort }}>
                     <input type="hidden" name="state" value={{ state }}>
                     <input type="hidden" name="page" value="1">
+                    <input type="hidden" name="lab" value={{ lab }}>
                 </form>
             </div>
         </div>
@@ -75,6 +76,27 @@
                                                                                                   href="{% url 'exp:study-list' %}?{% query_transform request page='1' state='all' %}">All</a>
                     </li>
                 </ul>
+            </div>
+        </div>
+        <div class="row text-center button-block hidden-xs">
+            <div style="display: inline-block; float: none;">
+                <div class="dropdown show">
+                    <a class="btn btn-default dropdown-toggle" href="#" id="labdropdownMenuLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Study Lab: {{ lab|capfirst }}
+                        <i aria-hidden="true" class="fa fa-chevron-down" name="name" style="font-size:10px;color:#337ab7;"></i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="stateDropdown">
+                        <li><a class='dropdown-item'
+                                href="{% url 'exp:study-list' %}?{% query_transform request page=1 lab='all' %}">All</a>
+                        </li>
+                        {% for lab in user_labs %}
+                        <li><a class='dropdown-item'
+                               href="{% url 'exp:study-list' %}?{% query_transform request page=1 lab=lab.name %}">{{ lab.name }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="row visible-xs pt-lg">

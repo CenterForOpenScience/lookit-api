@@ -354,6 +354,10 @@ def get_study_list_qs(user, query_dict):
             )
         )
 
+    lab = query_dict.get("lab")
+    if lab and lab !="all":
+        queryset = queryset.filter(lab_name=lab)
+
     sort = query_dict.get("sort", "")
     if "name" in sort:
         queryset = queryset.order_by(

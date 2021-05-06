@@ -23,7 +23,7 @@ from exp.views.mixins import (
 from project import settings
 from studies.forms import StudyCreateForm, StudyEditForm
 from studies.helpers import send_mail
-from studies.models import Study, StudyType
+from studies.models import Study, StudyType, Lab
 from studies.permissions import LabPermission, StudyPermission
 from studies.queries import get_study_list_qs
 from studies.tasks import ember_build_and_gcp_deploy
@@ -320,7 +320,7 @@ class StudyListView(
         """
         user = self.request.user
         query_dict = self.request.GET
-
+        
         queryset = get_study_list_qs(user, query_dict)  # READ_STUDY_DETAILS permission
 
         return queryset
@@ -331,10 +331,12 @@ class StudyListView(
         """
         context = super().get_context_data(**kwargs)
         context["state"] = self.request.GET.get("state", "all")
+        context["lab"] = self.request.GET.get("lab", "all")
         context["match"] = self.request.GET.get("match", "")
         context["sort"] = self.request.GET.get("sort", "name")
         context["page"] = self.request.GET.get("page", "1")
         context["can_create_study"] = self.request.user.can_create_study()
+        context["user_labs"] = Lab.objects.filter(Q(id__in=self.request.user.labs.all()))
         return context
 
 

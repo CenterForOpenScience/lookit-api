@@ -10,7 +10,7 @@ def query_transform(request, **kwargs):
     updated = request.GET.copy()
 
     # Avoid duplicating these keys at all (no page=1&page=2)
-    single_value_keys = ["state", "set", "page", "match", "sort"]
+    single_value_keys = ["state", "set", "page", "match", "sort","lab"]
 
     # Allow multiple values for these, but not duplicates (allow
     # ageoptions=birthday&ageoptions=rounded but not
